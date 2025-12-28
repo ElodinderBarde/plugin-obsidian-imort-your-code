@@ -1,0 +1,10 @@
+{
+  "id": "code-indexer",
+  "name": "Code Indexer",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Indexes source code projects into structured markdown.",
+  "author": "Elodin",
+  "authorUrl": "",
+  "isDesktopOnly": true
+}
