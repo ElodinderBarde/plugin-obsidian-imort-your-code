@@ -1,17 +1,20 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Environment-dependent path to Maven home directory
-/mavenHomeManager.xml
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-.idea/node_modules/
+# IDE
+.idea/
+.vscode/
+
+# Node
+node_modules/
 dist/
 main.js
-.DS_Store
-.idea/
-node_modules/
 
+# OS
+.DS_Store
+
+# IntelliJ / JetBrains
+/shelf/
+/workspace.xml
+/dataSources/
+/dataSources.local.xml
+/httpRequests/
+/mavenHomeManager.xml
+SSS
