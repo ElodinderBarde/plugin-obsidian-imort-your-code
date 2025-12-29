@@ -107,7 +107,7 @@ Dieses modulare Design ermöglicht eine klare Trennung der Logik und eine einfac
 
 
 **Entity-Relationship-Modell (ER-Modell):""
-```Mermaid
+```mermaid
 erDiagram
     FileDescriptor {
         string path
