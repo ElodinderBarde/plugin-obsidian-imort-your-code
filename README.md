@@ -1,53 +1,53 @@
 # Import-Your-Code (Obsidian Plugin)
 
-## Ausgangslage & Motivation
+## Situation & Motivation
 ---
+
 ### Motivation
-Ich verwende Obsidian als zentrales Nachschlagewerk für Programmierwissen. Problematisch dabei sind wiederkehrende Herausforderungen:
+I use Obsidian as a central repository for programming knowledge. However, there are recurring challenges:
 
-„Verwaiste Dateien“ (Orphans im GraphView).
-Eine konsistente Ordnung für Quellcode.
-Automatisierte Übersichtsseiten ohne Mehraufwand.
-Dieses Plugin wurde ursprünglich als einfache Erweiterung gebaut, um kleine Projekte automatisch in Obsidian sichtbar zu machen. 
-Die Erfahrungen aus dem ersten Skript flossen in eine modularere Neuimplementierung, fokussiert auf nutzungsfreundliche Erweiterbarkeit und höhere Stabilität.
+- "Orphaned files" (orphans in GraphView).  
+- Consistent organization of source code.  
+- Automated overview pages without additional effort.  
 
-### Für wen ist Das Plugin geeignet?
-
-Die Idee ist entstanden durch meine Ausbildung, in der ich viele kleine Programme mit gezielten UseCases geschrieben habe. 
-Da ich Obsidian als mein Nachschlagewerk nutze, kam der Wunsch, Aufgabenorientiert nach meinen erstellten Programmen zu suchen und zu betrachten, doch erlaubt Obsidian dies nicht immer. (z.B .h files)
-
-Durch die Menge an Projekten und files wurde das hereinkopieren der einzelnen Files in Codeblöcken zu umständlich und ich suchte nach einer lösung, das gesammte Programm in meinen Vault zu integrieren und einzubinden, ohne grossen mehraufwand, so ist das erste Plugin entstanden. Dieses ist jedoch schnell an seine Grenzen gekommen, weshalb ich mich entschloss - ohne weiteres gebastel - von Grund auf neu zu beginnen. 
-
-Falls Sie zufällig über dieses Repo stossen und ähnliche Wünsche haben, könnte dieses tool - wenn es fretig ist - etwas sein. 
-
-### Überblick
-
-**Import-Your-Code** ist ein Obsidian-Plugin zur automatisierten Indexierung und Darstellung von Projektdateien innerhalb eines Vaults.
-Es ist die **konzeptionelle und architektonische Weiterentwicklung** des ursprünglichen Skripts
-[`obsidian-auto-import`](https://github.com/ElodinderBarde/obsidian-auto-import).
-
-Während das Skript als **einmaliges, imperatives Hilfsmittel** gedacht war, verfolgt dieses Plugin einen **strukturierten, erweiterbaren und benutzerkonfigurierbaren Ansatz**.
+This plugin was originally built as a simple extension to make small projects automatically visible in Obsidian. The experiences gained from the first script were incorporated into a more modular redesign, focusing on user-friendly extensibility and improved stability.
 
 ---
 
-###  IST-Zustand (aktueller Stand)
+### Who Is This Plugin For?
+The idea for this plugin arose during my training, where I wrote many small programs with specific use cases. Since I use Obsidian as my knowledge base, I wanted to search and view my created programs based on tasks. Unfortunately, Obsidian doesn’t always support this—like `.h` files, for example.
 
-#### Herkunft & Basis
+Due to the large number of projects and files, copying individual files into code blocks became too cumbersome, and I looked for a solution to integrate entire programs into my Vault without much additional effort. This led to the development of my first plugin. However, it quickly met its limitations, which led me to decide—without further tinkering—to start fresh from the ground up.
 
-Der aktuelle Stand bildet den **funktionalen Kern** des ursprünglichen Skripts ab:
+If you just happened to stumble upon this repository and share similar needs, this tool—when finished—might be something useful for you, as soon as its finished.
 
-* rekursive Dateierfassung
-* Klassifikation nach Sprache / Ordner
-* Markdown-basierter Output
-* Wikilinks als kleinster gemeinsamer Nenner
+---
 
-Das ursprüngliche Skript diente dabei als **Referenz für das gewünschte Endlayout und Verhalten**, nicht als Code-Vorlage.
+### Overview
 
+**Import-Your-Code** is an Obsidian plugin for the automated indexing and presentation of project files within a Vault.  
+It is the **conceptual and architectural evolution** of the original script [`obsidian-auto-import`](https://github.com/ElodinderBarde/obsidian-auto-import).
 
+While the script was designed as a **one-off, imperative tool**, this plugin follows a **structured, extensible, and user-configurable approach**.
 
-### Aktuelle Architektur
+---
 
-Das Plugin ist **modular aufgebaut** und trennt klar zwischen den folgenden Hauptkomponenten:
+### Current State (IST)
+
+#### Origin & Basis
+The current state represents the **functional core** of the original script:
+
+- Recursive file collection.  
+- Classification by language and folder.  
+- Markdown-based output.  
+- Wikilinks as the smallest common denominator.
+
+The original script served as a **reference for the desired layout and behavior**, but not as a code template.
+
+---
+
+### Current Architecture
+The plugin is **modularly structured**, clearly separating the following main components:
 
 ```mermaid
 graph TD
@@ -59,54 +59,58 @@ graph TD
     D --> F[[FileDescriptor]]
     C --> G[[RenderRule]]
 
-    subgraph Modelle
+    subgraph Models
         E
         F 
         G
     end
 ```
 
-#### **Hauptkomponenten:**
-1. **Traversal**  
-   Erfassen aller Dateien im Zielordner (rekursiv).
-2. **Classification**  
-   Zuordnung von Dateien zu Kategorien anhand von:
-   - Root-Ordnern
-   - Dateiendungen
-   - Konfigurierbaren Sprachprofilen
-3. **Rendering**  
-   Entscheidung, *wie* eine Datei dargestellt wird (z. B. als Link, Embed, Asset oder übersprungen).
-4. **Output**  
-   Erzeugung strukturierter Markdown-Sections.
+---
+
+#### **Main Components:**
+1. **Traversal:**  
+   Collects all files in the target folder recursively.  
+2. **Classification:**  
+   Assigns files to categories based on:  
+   - Root folders.  
+   - File extensions.  
+   - Configurable language profiles.  
+3. **Rendering:**  
+   Determines how a file is presented (e.g., as a link, embed, asset, or skipped).  
+4. **Output:**  
+   Creates structured Markdown sections.
 
 ---
 
-#### **Zentrale Modelle:**
-- **`FileDescriptor`**  
-  Repräsentiert jede Datei im Zielbereich (inkl. Pfad und Metadaten).
-- **`LanguageProfile`**  
-  Definiert:
-  - Projekt-/Sprachkontext
-  - Root-Ordner
-  - Regeln pro Dateityp
-- **`RenderRule`**  
-  Einheitliche Darstellungsvorschrift über ein explizites Zustandsmodell:
+#### **Key Models:**
+- **`FileDescriptor`:**  
+  Represents each file in the target area (including path and metadata).  
+- **`LanguageProfile`:**  
+  Defines:  
+  - Project/language context.  
+  - Root folders.  
+  - Rules for each file type.  
+- **`RenderRule`:**  
+  Uniform rendering guideline with an explicit state model:  
   ```ts
   mode: "link" | "embed" | "asset" | "skip"
   ```
 
 ---
 
-**Erläuterung des Datenflusses:**
-1. **Traversal** führt eine rekursive Dateierfassung durch.
-2. Die erfassten Dateien werden in **Classification** kategorisiert.
-3. In **Rendering** wird für jede Kategorie entschieden, wie diese visualisiert wird.
-4. **Output** erzeugt auf Basis der gerenderten Daten die strukturierten Markdown-Bereiche.
+#### **Data Flow Explanation:**
+1. **Traversal** performs recursive file collection.  
+2. The collected files are categorized in **Classification**.  
+3. **Rendering** decides how each category is visualized.  
+4. **Output** generates structured Markdown based on the rendered data.
 
-Dieses modulare Design ermöglicht eine klare Trennung der Logik und eine einfache Erweiterbarkeit des Plugins.
+This modular design enables clear logical separation and makes the plugin easily extensible.
 
+---
 
-**Entity-Relationship-Modell (ER-Modell):""
+### Entity-Relationship Model (ER-Model):
+
 ```mermaid
 erDiagram
     FileDescriptor {
@@ -137,126 +141,99 @@ erDiagram
     Classification ||--|| RenderRule : uses
     RenderRule ||--o| Rendering : isUsedBy
     Rendering ||--|| Output : generates
-
 ```
 
+**Model Explanation:**
+- **FileDescriptor:** Describes a file with attributes like `path`, `name`, and metadata (`createdDate`, `modifiedDate`).  
+- **LanguageProfile:** Describes configuration for a programming language (e.g., supported file extensions and root folder).  
+- **RenderRule:** Defines how a file should be rendered (e.g., as a link, embed, asset, or skipped).  
+- **Traversal:** The starting point of the plugin; defines which folder is scanned recursively.  
 
-**Erläuterung des ER-Modells:**
-
-
-**FileDescriptor:** Beschreibt eine Datei mit Attributen wie path, name, und Metadaten (createdDate, modifiedDate).
-
-**LanguageProfile:** Beschreibt die Konfiguration für eine Programmiersprache (z. B. unterstützte Dateiendungen und der Root-Ordner).
-
-**RenderRule:** Definiert, wie eine Datei gerendert werden soll (z. B. als Link, Embed, Asset oder übersprungen).
-
-**Traversal:** Der Startpunkt des Plugins; definiert, welcher Ordner rekursiv untersucht wird.
-
-**Beziehungen:**
-
-
-FileDescriptor wird in der Classification kategorisiert.
-
-Classification nutzt LanguageProfile und RenderRule, um Dateien zuzuordnen und Render-Entscheidungen zu treffen.
-
-Rendering nutzt die RenderRule, um die Dateien für den Output vorzubereiten.
-
-Der Output wird letztlich durch die gerenderten Daten generiert.
-
+**Relationships:**
+- `FileDescriptor` is classified by `Classification`.  
+- `Classification` uses `LanguageProfile` and `RenderRule` to categorize files and make rendering decisions.  
+- `Rendering` uses `RenderRule` to prepare files for the `Output`.  
+- The `Output` is ultimately created based on rendered data.
 
 ---
 
+### Current Functionality
+✔ All files are collected.  
+✔ Each file is **at least presented as a Wikilink**.  
+✔ Classification is **rule-based and extensible**.  
+✔ Code compiles cleanly.  
+✔ Foundation for multi-project support is laid.
 
-#### Aktueller Funktionsumfang
-
-✔ Alle Dateien werden erfasst
-✔ Jede Datei ist **mindestens als Wikilink darstellbar**
-✔ Klassifikation ist **regelbasiert und erweiterbar**
-✔ Code kompiliert sauber
-✔ Fundament für Mehrprojekt-Support ist gelegt
-
-⚠ Noch nicht aktiv nutzbar im Obsidian-UI
-
-⚠ Renderer bildet das alte Layout noch nicht vollständig nach
-
-⚠ Settings-UI ist noch leer
+⚠ Not yet usable in the Obsidian UI.  
+⚠ Renderer does not fully replicate the old layout.  
+⚠ Settings-UI is still empty.
 
 ---
 
-### SOLL-Zustand (Zielbild)
+### Future Goals (SOLL)
+#### Goal
+The plugin aims to achieve **everything the original script could not**, while retaining its simplicity in the default case.
 
-#### Zielsetzung
+The **base state** should mirror the original script:  
+- Standard root folder: `Quellcode`.  
+- Automatic indexing.  
+- Immediately usable Markdown output.
 
-Das Plugin soll **alles leisten, was das ursprüngliche Skript nicht konnte**, ohne dessen Einfachheit im Default-Fall zu verlieren.
-
-Der **Base-Zustand** soll dem ursprünglichen Script entsprechen:
-
-* Standard-Root: `Quellcode`
-* automatische Indexierung
-* sofort nutzbarer Markdown-Output
-
-Darüber hinaus soll das Plugin **erweiterbar, personalisierbar und zukunftssicher** sein.
+Beyond this, the plugin should be **extensible, customizable, and future-proof**.
 
 ---
 
-#### Geplante Funktionen
+#### Planned Features
 
-#####  Konfiguration & Erweiterbarkeit
+##### Configuration & Extensibility:
+- Users can:  
+  - Add new languages/profiles.  
+  - Define rules per file type.  
+  - Adjust rendering modes.  
+- No hardcoding of languages or extensions.  
+- Configuration through plugin settings (persisted in the Vault).
 
-* Benutzer können:
+##### Multiple Projects:
+- Detection of multiple project structures within a Vault.  
+- Separate root folders per project.  
+- Clean separation of outputs.
 
-    * neue Sprachen / Profile hinzufügen
-    * Regeln pro Dateityp definieren
-    * Darstellungsmodi anpassen
-* Keine Hardcodierung von Sprachen oder Extensions
-* Konfiguration über Plugin-Settings (persistiert im Vault)
+##### Rendering & Layout:
+- Reproduction of the original script layout as the default.  
+- Optional layout adjustments:  
+  - Section titles.  
+  - Grouping logic.  
+  - Presentation per file type.  
+- Preparation for future renderers (e.g., tables, code blocks).
 
-#####  Mehrere Projekte
+##### Complete Indexing:
+- **ALL files** are indexed.  
+- Non-renderable formats also appear:  
+  - As Wikilink.  
+  - Or as asset reference.  
+- No "silent omissions."
 
-* Erkennung mehrerer Projektstrukturen innerhalb eines Vaults
-* Separate Root-Ordner pro Projekt
-* Saubere Trennung der Ausgabe
-
-#####  Rendering & Layout
-
-* Nachbildung des ursprünglichen Skript-Layouts als Default
-* Optionale Layout-Anpassungen:
-
-    * Section-Titel
-    * Gruppierungslogik
-    * Darstellung pro Dateityp
-* Vorbereitung für zukünftige Renderer (z. B. Tabellen, Codeblöcke)
-
-#####  Vollständige Indexierung
-
-* **ALLE Dateien werden indexiert**
-* Auch nicht darstellbare Formate erscheinen:
-
-    * als Wikilink
-    * oder als Asset-Referenz
-* Keine „stillen Auslassungen“
-
-#####  Zukunftssicherheit
-
-* Render-Modell ist explizit (`RenderMode`)
-* Neue Modi können ergänzt werden, ohne bestehende Logik zu brechen
-* Grundlage für:
-
-    * Encoding-Sonderfälle
-    * Assets
-    * externe Ressourcen
+##### Future Proofing:
+- Render model is explicit (`RenderMode`).  
+- New modes can be added without breaking existing logic.  
+- Foundation established for:  
+  - Encoding special cases.  
+  - Assets.  
+  - External resources.
 
 ---
 
-### Abgrenzung zum ursprünglichen Skript
+### Comparison with the Original Script
 
-| Aspekt             | Skript       | Plugin       |
+| Aspect             | Script       | Plugin       |
 | ------------------ | ------------ | ------------ |
-| Architektur        | monolithisch | modular      |
-| Erweiterbarkeit    | nein         | ja           |
-| User-Konfiguration | nein         | ja           |
-| Mehrprojekte       | teilweise    | geplant      |
-| Rendering          | fix          | regelbasiert |
-| Wartbarkeit        | begrenzt     | hoch         |
+| Architecture        | Monolithic   | Modular      |
+| Extensibility       | No           | Yes          |
+| User Configuration  | No           | Yes          |
+| Multi-projects      | Partial      | Planned      |
+| Rendering           | Fixed        | Rule-based   |
+| Maintainability     | Limited      | High         |
 
+--- 
 
+Let me know if further refinements are needed!
