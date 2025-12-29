@@ -141,17 +141,21 @@ erDiagram
 ```
 
 
-Erläuterung des ER-Modells:
+**Erläuterung des ER-Modells:**
 
-FileDescriptor: Beschreibt eine Datei mit Attributen wie path, name, und Metadaten (createdDate, modifiedDate).
-LanguageProfile: Beschreibt die Konfiguration für eine Programmiersprache (z. B. unterstützte Dateiendungen und der Root-Ordner).
-RenderRule: Definiert, wie eine Datei gerendert werden soll (z. B. als Link, Embed, Asset oder übersprungen).
-Traversal: Der Startpunkt des Plugins; definiert, welcher Ordner rekursiv untersucht wird.
-Beziehungen:
+**FileDescriptor:** Beschreibt eine Datei mit Attributen wie path, name, und Metadaten (createdDate, modifiedDate).
+**LanguageProfile:** Beschreibt die Konfiguration für eine Programmiersprache (z. B. unterstützte Dateiendungen und der Root-Ordner).
+**RenderRule:** Definiert, wie eine Datei gerendert werden soll (z. B. als Link, Embed, Asset oder übersprungen).
+**Traversal:** Der Startpunkt des Plugins; definiert, welcher Ordner rekursiv untersucht wird.
+
+**Beziehungen:**
+
 FileDescriptor wird in der Classification kategorisiert.
 Classification nutzt LanguageProfile und RenderRule, um Dateien zuzuordnen und Render-Entscheidungen zu treffen.
 Rendering nutzt die RenderRule, um die Dateien für den Output vorzubereiten.
 Der Output wird letztlich durch die gerenderten Daten generiert.
+
+
 ---
 
 
